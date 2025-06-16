@@ -7,6 +7,7 @@ import { Genre } from './genre';
 import { Favourites } from './favourites';
 import { Downloads } from './downloads';
 import { Categories } from './categories';
+import { History } from './history';
 
 // Define all associations here after all models are imported
 export const setupAssociations = () => {
@@ -132,6 +133,33 @@ export const setupAssociations = () => {
     Categories.hasMany(Song, {
         foreignKey: 'category_id',
         as: 'songs',
+    });
+
+    History.belongsTo(User, {
+        foreignKey: 'user_id',
+        as: 'user',
+    });
+
+    History.belongsTo(Song, {
+        foreignKey: 'song_id',
+        as: 'song',
+    });
+    History.belongsTo(Album, {
+        foreignKey: 'album_id',
+        as: 'album',
+    });
+
+    User.hasMany(History, {
+        foreignKey: 'user_id',
+        as: 'history',
+    });
+    Song.hasMany(History, {
+        foreignKey: 'song_id',
+        as: 'history',
+    });
+    Album.hasMany(History, {
+        foreignKey: 'album_id',
+        as: 'history',
     });
 
 };

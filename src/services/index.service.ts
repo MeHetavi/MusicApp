@@ -5,6 +5,8 @@ import singer_service from './singer.service';
 import album_service from './album.service';
 import song_service from './song.service';
 import genre_category_service from './genre.category.service';
+import history_service from './history.service';
+
 export {
     response_service,
     user_service,
@@ -12,5 +14,6 @@ export {
     token_service,
     album_service,
     song_service,
-    genre_category_service
+    genre_category_service,
+    history_service
 };

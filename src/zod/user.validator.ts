@@ -21,3 +21,20 @@ export const updateUserSchema = z.object({
         .optional(),
 
 });
+
+export const updateCurrentSongSchema = z.object({
+    current_song_id: z
+        .string({ required_error: 'Current song ID is required' }),
+    current_song_time: z
+        .string({ required_error: 'Current song time is required' }),
+    current_album_id: z
+        .string({ required_error: 'Current album ID is required' })
+        .optional(),
+});
+
+export const updateSongTimeSchema = z.object({
+    current_song_time: z
+        .string({ required_error: 'Current song time is required' }),
+    history_id: z
+        .string({ required_error: 'History ID is required' })
+});

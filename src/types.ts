@@ -12,6 +12,10 @@ export interface IUser {
     otp: IntegerType;
     login_verification_status: boolean;
     is_admin: boolean;
+    current_song_id?: string; // Assuming current_song is a song_id
+    current_album_id?: string; // Assuming current_album_id is an album_id
+    current_song_time?: string; // Assuming current_song_time is a time string like "00:00"
+    device_token?: string;
     createdAt?: Date;
     updatedAt?: Date;
     is_singer: boolean;
@@ -91,6 +95,24 @@ export interface IMusicSinger {
     singer_id: string;
     user_id: string;
     song_id: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface IAlbumSongs {
+    album_song_id: string;
+    album_id: string;
+    song_id: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface IHistory {
+    history_id: string;
+    song_id: string;
+    user_id: string;
+    album_id: string;
+    song_time: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

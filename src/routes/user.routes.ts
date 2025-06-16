@@ -1,13 +1,16 @@
 import { authenticate } from "../middleware/auth.middleware";
-import { getUser, updateUser } from "../controllers/user.controller";
+import { getUser, updateCurrentsong, updateSongTime, updateUser, userHistory } from "../controllers/user.controller";
 import { Router } from "express";
 import { validateBody } from "../middleware/zod.middleware";
-import { updateUserSchema } from "../zod/user.validator";
+import { updateCurrentSongSchema, updateUserSchema, updateSongTimeSchema } from "../zod/user.validator";
 
 const router = Router();
 
 router.use(authenticate)
 router.get('/profile', getUser);
 router.put('/update', validateBody(updateUserSchema), updateUser);
+router.put('/update-current-song', validateBody(updateCurrentSongSchema), updateCurrentsong);
+router.get('/history', userHistory); // Uncomment if you have a history controller
+router.put('/update-song-time', validateBody(updateSongTimeSchema), updateSongTime); // Uncomment if you have a song time update controller
 
-export default router;
+export default router;  

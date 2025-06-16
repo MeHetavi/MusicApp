@@ -117,4 +117,19 @@ async function updateSong(req: Request, res: Response) {
     }
 }
 
-export { getSong, setFavourite, setDownloaded, getMySongs, createMusic, updateSong };
+async function getNextSong(req: Request, res: Response) {
+    try {
+        const song_ids = await song_service.getTotalSongs();
+        let song_id = song_ids[Math.floor(Math.random() * song_ids.length)];
+        const song = await song_service.getSong(parseInt(song_id));
+        if (!song) return response_service.notFoundResponse(res, 'Song not found.');
+        const is_favourite = await song_service.isFavourite(parseInt(song_id), req.user?.user_id);
+        return response_service.successResponse(res, 'Song fetched successfully.', { ...song, is_favourite });
+    } catch (err: any) {
+        logger.error('Error fetching next song:', err);
+        return response_service.internalServerErrorResponse(res, err.message);
+    }
+}
+
+
+export { getSong, setFavourite, setDownloaded, getMySongs, createMusic, updateSong, getNextSong };

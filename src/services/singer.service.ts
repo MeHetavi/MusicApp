@@ -67,10 +67,9 @@ async function isMySong(songId: number, singerId: number) {
     }
 }
 
-
 export default {
     addSongToArtist,
     addSong,
     mySongs,
-    isMySong
+    isMySong,
 }

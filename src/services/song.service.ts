@@ -79,4 +79,14 @@ async function updateSong(songId: number, data: any) {
 
 }
 
-export default { getSong, setFavourite, isFavourite, setDownloaded, updateSong };
+async function getTotalSongs(): Promise<string[]> {
+    try {
+        const songs = await Song.findAll();
+        return songs.map(song => (song as any).song_id.toString());
+    } catch (err) {
+        logger.error('Error counting songs:', err);
+        throw err;
+    }
+}
+
+export default { getSong, setFavourite, isFavourite, setDownloaded, updateSong, getTotalSongs };
