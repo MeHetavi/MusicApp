@@ -1,18 +1,24 @@
 // src/models/user.ts
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database';
+import { config } from '../config';
 
 const User = sequelize.define('User', {
     user_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    first_name: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
-    last_name: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
-    user_name: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
+    full_name: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
+    username: { type: DataTypes.STRING, allowNull: false, defaultValue: "" },
     email: { type: DataTypes.STRING, allowNull: false, unique: true },
     otp: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-    password: { type: DataTypes.STRING, allowNull: false },
     login_type: { type: DataTypes.ENUM('email', 'social'), allowNull: false },
-    profile_pic: { type: DataTypes.STRING },
+    profile_pic: {
+        type: DataTypes.STRING, get: function () {
+            if (this.getDataValue('profile_pic')) {
+                return config.clientUrl + this.getDataValue('profile_pic');
+            }
+        }
+    },
     gender: { type: DataTypes.STRING },
+    dob: { type: DataTypes.STRING },
     device_token: { type: DataTypes.STRING },
     login_verification_status: { type: DataTypes.BOOLEAN, defaultValue: false },
     is_admin: { type: DataTypes.BOOLEAN, defaultValue: false },
@@ -37,7 +43,9 @@ const User = sequelize.define('User', {
         },
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
-    }
+    },
+    mobile_number: { type: DataTypes.STRING, allowNull: true },
+    country_code: { type: DataTypes.STRING, allowNull: true },
 }, {
     tableName: 'users',
     timestamps: true,

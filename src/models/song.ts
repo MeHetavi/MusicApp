@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/database';
+import { config } from '../config';
 
 const Song = sequelize.define('song', {
     song_id: {
@@ -8,8 +9,16 @@ const Song = sequelize.define('song', {
         autoIncrement: true
     },
     title: { type: DataTypes.STRING, allowNull: false },
-    audio: { type: DataTypes.STRING, allowNull: false },
-    thumbnail: { type: DataTypes.STRING, allowNull: false },
+    audio: {
+        type: DataTypes.STRING, allowNull: false, get: function () {
+            return config.clientUrl + this.getDataValue('audio');
+        }
+    },
+    thumbnail: {
+        type: DataTypes.STRING, allowNull: false, get: function () {
+            return config.clientUrl + this.getDataValue('thumbnail');
+        }
+    },
     genre_id: {
         type: DataTypes.INTEGER,
 

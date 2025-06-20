@@ -2,12 +2,12 @@ import e, { Request, Response } from "express";
 import { album_service, response_service, singer_service } from "../services/index.service";
 import { logger } from "../utils";
 import { ISong } from "../types";
+import { config } from "../config";
 
 async function createAlbum(req: Request, res: Response) {
     try {
         const user = req.user;
         const is_private = req.body.is_private;
-        console.log(is_private, user.is_singer);
         if (is_private != 'true' && !user.is_singer) return response_service.badRequestResponse(res, 'You are not an artist.');
 
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
@@ -93,7 +93,7 @@ async function updateAlbum(req: Request, res: Response) {
         const album_data = { ...req.body, thumbnail: files?.['album_thumbnail']?.[0].path, user_id: req.user.user_id, songs: null };
         album = await album_service.updateAlbum(album_data, { album_id: req.params.album_id });
         if (!album) return response_service.badRequestResponse(res, 'Failed to update album.');
-        require('fs').unlink(del_album, (err: any) => {
+        require('fs').unlink(del_album?.replace(config.clientUrl, ''), (err: any) => {
             if (err) logger.error('Error deleting old album thumbnail:', err);
         });
         return response_service.successResponse(res, 'Album updated successfully.', album);

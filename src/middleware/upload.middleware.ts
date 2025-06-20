@@ -18,6 +18,9 @@ const storage = multer.diskStorage({
             case 'thumbnail':
                 cb(null, 'uploads/thumbnails/');
                 break;
+            case 'profile_pic':
+                cb(null, 'uploads/profile_pics/');
+                break;
             default:
                 cb(null, 'uploads/anonymous/');
                 break;
@@ -63,6 +66,14 @@ const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilt
                 cb(new Error('Invalid image file type.'));
             }
             break;
+        case 'profile_pic':
+            allowedImageTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (allowedImageTypes.includes(file.mimetype)) {
+                cb(null, true);
+            } else {
+                cb(new Error('Invalid image file type.'));
+            }
+            break;
         default:
             cb(new Error('Unexpected file field.'));
             break;
@@ -81,11 +92,12 @@ const upload = multer({
 
 // === MIDDLEWARE EXPORT ===
 
-export const uploadMusic = (req: Request, res: Response, next: NextFunction) => {
+export const uploadDocs = (req: Request, res: Response, next: NextFunction) => {
     const uploadFields = upload.fields([
         { name: 'audio', maxCount: 1 },
         { name: 'thumbnail', maxCount: 1 },
-        { name: 'album_thumbnail', maxCount: 1 }
+        { name: 'album_thumbnail', maxCount: 1 },
+        { name: 'profile_pic', maxCount: 1 }
     ]);
 
     uploadFields(req, res, (err: any) => {

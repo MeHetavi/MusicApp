@@ -40,4 +40,13 @@ async function updateUser(data: Partial<IUser>, where: Partial<IUser>): Promise<
     }
 }
 
-export default { getUser, createUser, updateUser };
+async function getAllUsersList() {
+    try {
+        const users = await User.findAll();
+        return users.map(user => user.toJSON() as IUser);
+    } catch (err) {
+        throw err;
+    }
+}
+
+export default { getUser, createUser, updateUser, getAllUsersList };

@@ -1,14 +1,12 @@
 import { authenticate } from "../middleware/auth.middleware";
 import { Router } from "express";
 import { validateBody } from "../middleware/zod.middleware";
-import { uploadMusic } from "../middleware/upload.middleware";
 import { createAlbumSchema, updateAlbumSchema, addOrRemoveSongsFromAlbumSchema } from "../zod/album.validator";
 import { addSongsToAlbum, createAlbum, removeSongsFromAlbum, updateAlbum, getAlbum } from "../controllers/album.controller";
 
 const router = Router();
 
 router.use(authenticate)
-router.use(uploadMusic)
 router.post('/create', validateBody(createAlbumSchema), createAlbum);
 router.put('/update/:album_id', validateBody(updateAlbumSchema), updateAlbum);
 router.get('/get/:album_id', getAlbum);

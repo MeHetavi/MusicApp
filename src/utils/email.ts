@@ -40,37 +40,7 @@ const sendEmailOTP = async (email: string, otp: string) => {
 };
 
 
-const sendResetPasswordLink = async (email: string, link: string) => {
-
-    const transporter = nodemailer.createTransport({
-        service: emailConfig.service,
-        host: emailConfig.host,
-        port: Number(emailConfig.port),
-        secure: false,
-        auth: {
-            user: emailConfig.user,
-            pass: emailConfig.pass
-        }
-    });
-
-    const mailOptions = {
-        from: emailConfig.user,
-        to: email,
-        subject: 'Link for Password Reset on Music App',
-        text: `Your Link is: ${link}`
-    };
-
-    try {
-        const info = await transporter.sendMail(mailOptions);
-        return info
-    } catch (err) {
-        logger.error("Error sending email:", err);
-        return false;
-    }
-};
-
 export {
     generateOTP,
     sendEmailOTP,
-    sendResetPasswordLink
 }

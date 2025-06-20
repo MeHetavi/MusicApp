@@ -29,7 +29,7 @@ export const config: Config = {
   jwtSecret: process.env.JWT_SECRET || 'secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   socketPath: process.env.SOCKET_PATH || '/socket.io',
-  clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
+  clientUrl: process.env.CLIENT_URL || 'http://192.168.0.11:3000',
   oneSignalAppId: process.env.ONE_SIGNAL_APP_ID || '',
   oneSignalApiKey: process.env.ONE_SIGNAL_API_KEY || '',
   secret: process.env.SECRET || 'secret',

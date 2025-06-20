@@ -6,10 +6,10 @@ import indexRoutes from './routes/index.routes';
 
 const app: Application = express();
 
+app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser());
-
 
 // Routes
 app.use('/api', indexRoutes);

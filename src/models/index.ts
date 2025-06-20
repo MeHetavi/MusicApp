@@ -7,6 +7,7 @@ import { Genre } from './genre';
 import { Favourites } from './favourites';
 import { Downloads } from './downloads';
 import { Categories } from './categories';
+import { Avatar } from './avatar';
 // Setup associations after all models are defined
 
 export {
@@ -18,5 +19,6 @@ export {
     Genre,
     Categories,
     Favourites,
-    Downloads
+    Downloads,
+    Avatar
 };

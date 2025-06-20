@@ -1,7 +1,6 @@
 import { authenticate } from "../middleware/auth.middleware";
 import { Router } from "express";
 import { getSong, setFavourite, setDownloaded, getMySongs, createMusic, updateSong, getNextSong } from "../controllers/song.controller";
-import { uploadMusic } from "../middleware/upload.middleware";
 import { uploadMusicSchema, updateMusicSchema } from "../zod/song.validator";
 import { validateBody } from "../middleware/zod.middleware";
 const router = Router();
@@ -12,7 +11,6 @@ router.post('/favourite/:song_id', setFavourite);
 router.post('/download/:song_id', setDownloaded);
 
 
-router.use(uploadMusic)
 router.post('/upload-song', validateBody(uploadMusicSchema), createMusic);
 router.get('/my-songs', getMySongs);
 router.put('/update-song/:song_id', validateBody(updateMusicSchema), updateSong);

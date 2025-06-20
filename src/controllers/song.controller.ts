@@ -3,6 +3,7 @@ import { getAudioDuration } from "../utils/audioDuration";
 import removeExtraFields from "../services/common/removeExtraFields.service";
 import { Request, Response } from 'express';
 import { logger } from "../utils";
+import { config } from "../config";
 
 async function getSong(req: Request, res: Response) {
     try {
@@ -96,14 +97,25 @@ async function updateSong(req: Request, res: Response) {
         const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
         let updatedData: any = { ...req.body };
 
+
         if (files && files['audio']) {
             updatedData.audio = files['audio'][0].path;
             const duration = await getAudioDuration(updatedData.audio);
             updatedData.duration = duration.toString();
+            if (song.audio) {
+                require('fs').unlink(song.audio.replace(config.clientUrl, ''), (err: any) => {
+                    if (err) logger.error('Error deleting old song audio:', err);
+                });
+            }
         }
 
         if (files && files['thumbnail']) {
             updatedData.thumbnail = files['thumbnail'][0].path;
+            if (song.thumbnail) {
+                require('fs').unlink(song.thumbnail.replace(config.clientUrl, ''), (err: any) => {
+                    if (err) logger.error('Error deleting old song thumbnail:', err);
+                });
+            }
         }
 
         const updatedSong = await song_service.updateSong(songId, updatedData);

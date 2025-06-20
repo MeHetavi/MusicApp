@@ -1,16 +1,17 @@
-import { Document, ObjectId } from 'mongoose';
-import mongoose from 'mongoose';
 import { IntegerType } from 'typeorm';
 
 export interface IUser {
     user_id: string;
-    user_name: string;
+    username: string;
+    full_name: string;
     email: string;
-    password: string;
     role: 'user' | 'admin';
     login_type: 'email' | 'social';
     otp: IntegerType;
     login_verification_status: boolean;
+    gender: string;
+    dob: string;
+    profile_pic: string;
     is_admin: boolean;
     current_song_id?: string; // Assuming current_song is a song_id
     current_album_id?: string; // Assuming current_album_id is an album_id
@@ -19,6 +20,8 @@ export interface IUser {
     createdAt?: Date;
     updatedAt?: Date;
     is_singer: boolean;
+    mobile_number: string;
+    country_code: string;
 }
 
 export interface ISong {
@@ -113,6 +116,19 @@ export interface IHistory {
     user_id: string;
     album_id: string;
     song_time: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface IAdmin {
+    admin_id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    profile_pic: string;
+    gender: string;
+    dob: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

@@ -2,27 +2,28 @@ import { app } from './app';
 import { logger } from './utils';
 import { initializeSocketIO } from './socket';
 import { config } from './config';
-import index_routes from './routes/index.routes';
+// import index_routes from './routes/index.routes';
 import bodyParser from 'body-parser';
-import { sequelize } from './config/database';
+import { initializeDatabase } from './config/database';
 import { setupAssociations } from './models/associations';
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-// Register routes BEFORE starting the server
-app.use('/api', index_routes);
+
+// Body parsing middleware
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+
+// Register routes AFTER middleware setup
+// app.use('/api', index_routes);
+
 
 // Start the server
 const startServer = async (): Promise<void> => {
   try {
-
     try {
-      await sequelize.sync({ alter: true }); // In dev; use migrations in production
+      await initializeDatabase();
       setupAssociations();
-      console.log(' DB synced and models ready.');
       console.log('✅ DB synced and models ready.');
     } catch (err) {
-      console.error(' Sync failed:', err);
       console.error('❌ Sync failed:', err);
     }
 
