@@ -14,11 +14,11 @@ async function getAdmin(data: Partial<IAdmin>): Promise<IAdmin | null> {
 
 async function verifyAdmin(data: Partial<IAdmin>): Promise<IAdmin | null> {
     try {
-        const admin = await Admin.findOne({ where: { email: data.email } });
+        const admin = await Admin.findOne({ where: { email: data.email, password: data.password } });
         if (!admin) return null;
         const adminData = admin.toJSON() as IAdmin;
-        const password = await comparePassword(data.password ?? "", adminData.password);
-        if (!password) return null;
+        // const password = await comparePassword(data.password ?? "", adminData.password);
+        // if (!password) return null;
         return admin.toJSON() as IAdmin;
     } catch (err) {
         throw err;

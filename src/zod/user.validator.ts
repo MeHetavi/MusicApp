@@ -31,6 +31,9 @@ export const updateUserSchema = z.object({
     is_singer: z
         .string({ required_error: 'is_singer is required' })
         .optional(),
+    country_code: z
+        .string({ required_error: 'Country code is required' })
+        .optional(),
 });
 
 export const updateCurrentSongSchema = z.object({

@@ -1,6 +1,7 @@
 import { Album, Downloads, Favourites, Song } from '../models';
 import { User } from '../models/user';
 import { IUser } from '../types';
+import removeExtraFields from './common/removeExtraFields.service';
 
 async function getUser(data: Partial<IUser>): Promise<IUser | null> {
     try {
@@ -43,7 +44,7 @@ async function updateUser(data: Partial<IUser>, where: Partial<IUser>): Promise<
 async function getAllUsersList() {
     try {
         const users = await User.findAll();
-        return users.map(user => user.toJSON() as IUser);
+        return users.map(user => removeExtraFields(user.toJSON(), ['password', 'otp', 'current_song_time', 'current_song_id', 'current_album_id']) as IUser);
     } catch (err) {
         throw err;
     }
